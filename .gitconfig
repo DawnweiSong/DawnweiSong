@@ -1,0 +1,37 @@
+#[url "http://"]
+#	insteadOf = https://
+[user]
+	name = dawnsong
+	email = dawnwei.song@gmail.com
+[alias]
+	ci = commit
+	st = status
+	co = checkout
+	br = branch
+    lg = log --graph --abbrev-commit --decorate --date=relative --pretty=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
+    bp = big-picture
+    bv = big-picture -v viewnior
+    ver = rev-parse --short HEAD
+    flog = log -p --follow
+    #mkSpace = git remote prune origin && git repack && git prune-packed && git reflog expire --expire=1.month.ago && git gc --aggressive #https://gitbetter.substack.com/p/how-to-clean-up-the-git-repo-and
+[core]
+	editor = vim
+	pager = most
+[color]
+	ui = true
+[color "diff"]
+	meta = blue black bold
+[merge]
+	tool = meld
+[help]
+	autocorrect = 1
+[push]
+#	default = simple
+
+[pull]
+	rebase = false
+[http]
+	#sslCAinfo = /etc/ssl/certs/ca-bundle.crt
+	sslCAinfo = /url/ssl/certs/ca-bundle.crt
+[push]
+	default = simple

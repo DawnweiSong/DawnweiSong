@@ -3,14 +3,18 @@
 src=$(cygpath -aw "$1")
 dst=$(cygpath -aw "$2")
 
+jobTitle4win="mklink"
+#mklink is not a standalone exe but a cmd-let within cmd of windows
+#http://www.mingw.org/wiki/Posix_path_conversion
+#https://superuser.com/questions/526736/how-to-run-internal-cmd-command-from-the-msys-shell
+
 if [[ -d "$1" ]]; then
 	echo "link dir to $2 from $1 " 1>&2
-	#cmd /c "mklink /D \"$dst\" \"$src\""
-	start cmd /c "mklink /D \"$dst\" \"$src\""
+	cmd //c mklink //D "$dst" "$src"   
 elif [[ -f "$1" ]]; then 
 	echo "link file to $2 from $1 " 1>&2
-	#cmd /c "mklink /H \"$dst\" \"$src\""
-	start cmd /c  "mklink /H \"$dst\" \"$src\""
+	cmd //c mklink //H "$dst" "$src"
 else
 	echo cmd //c "mklink /J '$dst' '$src'"
 fi
+

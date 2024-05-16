@@ -1,7 +1,11 @@
 #!/bin/bash
 
 src=$(cygpath -aw "$1")
-dst=$(cygpath -aw "$2")
+dst=$2
+if [[ "${dst:0-1}" == "/" ]]; then 
+	dst=${dst}/`basename $src`
+fi
+dst=$(cygpath -aw "$dst")
 
 jobTitle4win="mklink"
 #mklink is not a standalone exe but a cmd-let within cmd of windows

@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [[ "${1^^}" == "-P" || "${1^^}" == "--PHYSICAL"  || "${1^^}" == "-H" || "${1^^}" == "--HARDLINK" ]]; then 
+	hardLink="//H"
+	shift
+fi
+
 src=$(cygpath -aw "$1")
 dst=$2
 if [[ "${dst:0-1}" == "/" ]]; then 
@@ -17,7 +22,7 @@ if [[ -d "$1" ]]; then
 	cmd.exe //c mklink //D "$dst" "$src"   
 elif [[ -f "$1" ]]; then 
 	echo "link file to $2 from $1 " 1>&2
-	cmd.exe //c mklink //H "$dst" "$src"
+	cmd.exe //c mklink $hardLink "$dst" "$src"
 else
 	echo cmd //c "mklink /J '$dst' '$src'"
 fi

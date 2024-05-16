@@ -10,10 +10,10 @@ jobTitle4win="mklink"
 
 if [[ -d "$1" ]]; then
 	echo "link dir to $2 from $1 " 1>&2
-	cmd //c mklink //D "$dst" "$src"   
+	cmd.exe //c mklink //D "$dst" "$src"   
 elif [[ -f "$1" ]]; then 
 	echo "link file to $2 from $1 " 1>&2
-	cmd //c mklink //H "$dst" "$src"
+	cmd.exe //c mklink //H "$dst" "$src"
 else
 	echo cmd //c "mklink /J '$dst' '$src'"
 fi

@@ -756,7 +756,7 @@ def tbl2Xy(tbl="pharmFeatures20k", prfx=prfx if 'prfx' in globals() else '', fea
 # import matplotlib.pyplot as plt 
 # import pandas as pd 
 
-def predScores10partsSummary(allEp, allY, Nparts=10, topPred=-1, cumPercentPlot=0, showTopNparts=None, horizentalPopulationRate=0):
+def predScores10partsSummary(allEp, allY, Nparts=10, topPred=-1, cumPercentPlot=0, showTopNparts=None, horizentalPopulationRate=100*0, figsize=(8, 6)):
   isort=np.argsort(allEp, axis=None) #return flatten sorted indices in the ascending way, i.e., from min to max  
   idxMax2min = np.flipud(isort) #get descending indices
   allEps=allEp[idxMax2min]
@@ -783,20 +783,27 @@ def predScores10partsSummary(allEp, allY, Nparts=10, topPred=-1, cumPercentPlot=
   
   df=pd.DataFrame(data={'avg_score':avgScores, 'min_score':minScores, 'max_score':maxScores, 'NBadNPI':NBadNPI, 'PBadNPI':PBadNPI, 'CumPBadNPI':CumPBadNPI})
     
-  plt.figure()
+  fig, ax = plt.subplots(figsize=figsize)
   if cumPercentPlot==0:
-    plt.plot(range(1, 1+Nparts), 100*np.array(N1percents), marker='o')
+    h=ax.plot(range(1, 1+Nparts), 100*np.array(N1percents), marker='o')
     plt.ylabel('Bad hit rate (%)')
   else:
-    plt.plot(range(1, 1+Nparts), 100*np.array(CumPBadNPI), marker='o')
+    h=ax.plot(range(1, 1+Nparts), 100*np.array(CumPBadNPI), marker='o')
     plt.ylabel('Cumulative Bad hit rate (%)')
   plt.xlabel(f'Predicted scores sorted and evenly splitted to {Nparts} groups, {N} NPIs/group')
   
   if showTopNparts is not None: plt.xlim(0, showTopNparts)
-  
+  if horizentalPopulationRate>0: 
+    ymin, ymax=ax.get_ylim()
+    plt.ylim(0, ymax)
+    xmin, xmax=ax.get_xlim()
+    plt.hlines(y=[horizentalPopulationRate], xmin=xmin, xmax=xmax, ls='--', lw=1, alpha=.8, colors=['r'])
+    ax.annotate(f"{horizentalPopulationRate:.1f}% population rate", xy=[xmin, horizentalPopulationRate])
+
+
   # plt.tick_params(axis='x', which='both', )
   # plt.xticks(ticks=range(1, 1+Nparts))
-  plt.grid(which='both')
+  ax.grid(which='both')
   
   return df 
 
